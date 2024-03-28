@@ -1,9 +1,8 @@
 # passwordgenx
 PasswordGenX is a simple application for generating random passwords. It allows creating passwords of varying lengths using different characters.
 
-Key Features:
+Features:
 
-    Password generation.
     Clipboard copying.
     Language selection.
 
