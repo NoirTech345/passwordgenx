@@ -5,9 +5,12 @@ import string
 import pyperclip
 from PIL import Image, ImageTk
 import pystray
+import locale
+import ctypes
+windll = ctypes.windll.kernel32
 
 messages = {
-    'en': {
+    'en_US': {
         'length_prompt': "Enter the desired length of the password:",
         'incorrect_input': "Incorrect input. Please enter an integer.",
         'generated_password': "Generated password: ",
@@ -18,7 +21,18 @@ messages = {
         'select_language': "Select Language",
         'minimize_to_tray': "Minimize to Tray"
     },
-    'ua': {
+     'en_GB': {
+        'length_prompt': "Enter the desired length of the password:",
+        'incorrect_input': "Incorrect input. Please enter an integer.",
+        'generated_password': "Generated password: ",
+        'copied_to_clipboard': "The generated password has been copied to the clipboard.",
+        'change_language': "Change Language",
+        'generate_password': "Generate Password",
+        'password_length_note': "Password length should be between 6 and 45 characters.",
+        'select_language': "Select Language",
+        'minimize_to_tray': "Minimize to Tray"
+    },
+    'ua_UA': {
         'length_prompt': "Введіть бажану довжину пароля:",
         'incorrect_input': "Неправильний ввід. Будь ласка, введіть ціле число.",
         'generated_password': "Згенерований пароль: ",
@@ -29,7 +43,7 @@ messages = {
         'select_language': "Виберіть мову",
         'minimize_to_tray': "Згорнути в трей"
     },
-    'ru': {
+    'ru_RU': {
         'length_prompt': "Введите желаемую длину пароля:",
         'incorrect_input': "Некорректный ввод. Пожалуйста, введите целое число.",
         'generated_password': "Сгенерированный пароль: ",
@@ -40,7 +54,7 @@ messages = {
         'select_language': "Выберите язык",
         'minimize_to_tray': "Свернуть в трей"
     },
-    'by': {
+    'be_BY': {
         'length_prompt': "Увядзіце жаданую даўжыню пароля:",
         'incorrect_input': "Няправільны ўвод. Калі ласка, увядзіце цэлае лік.",
         'generated_password': "Згенераваны пароль: ",
@@ -51,7 +65,7 @@ messages = {
         'select_language': "Выберыце мову",
         'minimize_to_tray': "Згарнуць у трэй"
     },
-    'kz': {
+    'kk_KZ': {
         'length_prompt': "Пароль ұзындығын көрсетіңіз:",
         'incorrect_input': "Дұрыс емес кіру. Толық сан енгізіңіз.",
         'generated_password': "Жасалған пароль: ",
@@ -62,7 +76,7 @@ messages = {
         'select_language': "Тілді таңдау",
         'minimize_to_tray': "Лақтырғышқа түсіру"
     },
-    'pl': {
+    'pl_PL': {
         'length_prompt': "Podaj żądaną długość hasła:",
         'incorrect_input': "Niepoprawne dane. Proszę podać liczbę całkowitą.",
         'generated_password': "Wygenerowane hasło: ",
@@ -123,14 +137,15 @@ def update_interface(language):
 root = tk.Tk()
 root.title("PasswordGenX (created by noirtech)")
 root.geometry("400x250")
+root.resizable(0, 0)
 
-label_length = tk.Label(root, text=messages['en']['length_prompt'])
+label_length = tk.Label(root, text=messages['en_US']['length_prompt'])
 label_length.pack(fill='both', expand=True)
 
 entry_length = tk.Entry(root)
 entry_length.pack(fill='both', expand=True)
 
-button_generate = tk.Button(root, text=messages['en']['generate_password'], command=generate_and_display_password)
+button_generate = tk.Button(root, text=messages['en_US']['generate_password'], command=generate_and_display_password)
 button_generate.pack(fill='both', expand=True)
 
 label_generated = tk.Label(root, text="")
@@ -140,41 +155,20 @@ label_copied = tk.Label(root, text="")
 label_copied.pack(fill='both', expand=True)
 
 variable_language = tk.StringVar(root)
-variable_language.set('en')
-option_menu = tk.OptionMenu(root, variable_language, 'en', 'ua', 'ru', 'by', 'kz', 'pl')
+variable_language.set(locale.windows_locale[windll.GetUserDefaultUILanguage()])
+option_menu = tk.OptionMenu(root, variable_language, 'en_US', 'ua_UA', 'ru_RU', 'be_BY', 'kk_KZ', 'pl_PL')
 option_menu.pack(fill='both', expand=True)
 
-button_language = tk.Button(root, text=messages['en']['change_language'], command=change_language, font=("Arial", 10))
+button_language = tk.Button(root, text=messages['en_US']['change_language'], command=change_language, font=("Arial", 10))
 button_language.pack(fill='both', expand=True)
 
-button_minimize = tk.Button(root, text=messages['en']['minimize_to_tray'], command=minimize_to_tray, font=("Arial", 10))
+button_minimize = tk.Button(root, text=messages['en_US']['minimize_to_tray'], command=minimize_to_tray, font=("Arial", 10))
 button_minimize.pack(fill='both', expand=True)
 
-password_note_label = tk.Label(root, text=messages['en']['password_length_note'], fg="red")
+password_note_label = tk.Label(root, text=messages['en_US']['password_length_note'], fg="red")
 password_note_label.pack(fill='both', expand=True)
 
-language = 'en'
+language = locale.windows_locale[ windll.GetUserDefaultUILanguage() ]
 update_interface(language)
 
 root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
