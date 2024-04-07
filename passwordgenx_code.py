@@ -252,21 +252,3 @@ language = 'en'
 update_interface(language)
 
 root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
